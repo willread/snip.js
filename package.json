@@ -1,0 +1,14 @@
+{
+  "name": "snip-js",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "^4.14.0",
+    "node-dom": "^0.1.0",
+    "request": "^2.73.0"
+  },
+  "engines": {
+    "node": "0.10.x",
+    "npm": "1.3.x"
+  }
+}
