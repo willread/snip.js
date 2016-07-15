@@ -28,7 +28,7 @@ app.get('/:token', (req, res) => {
 
   if (job) {
     const now = (new Date()).getTime();
-    if (!job.data || (job.timstamp && now - job.timestamp >= config.rateLimit)) {
+    if (!job.data || (job.timestamp && now - job.timestamp >= config.rateLimit)) {
       jsdom.env({
         url: job.url,
         features: {},
