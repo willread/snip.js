@@ -30,17 +30,17 @@ app.get('/:token', (req, res) => {
             const script = new vm.Script(job.expression, {});
             job.data = jsdom.evalVMScript(window, script);
             job.timestamp = now;
-            res.send(job.data);
+            res.jsonp(job.data);
           } catch(e) {
-            res.status(500).end();
+            res.status(500).jsonp(null);
           }
         }
       });
     } else {
-      res.send(job.data);
+      res.jsonp(job.data);
     }
   } else {
-    res.status(404).end();
+    res.status(404).jsonp(null);
   }
 });
 
