@@ -38,7 +38,10 @@ app.get('/:token', (req, res) => {
     if (!job.data || (job.timestamp && now - job.timestamp >= config.rateLimit)) {
       jsdom.env({
         url: job.url,
-        features: {},
+        features: {
+          FetchExternalResources : ['script'],
+          ProcessExternalResources : ['script'],
+        },
         done: (err, window) => {
           try {
             const script = new vm.Script(job.expression, {});
