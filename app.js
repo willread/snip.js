@@ -12,8 +12,15 @@ const cache = {};
 // Fetch my beer count from untappd
 
 cache.beers = {
-  url: 'https://untappd.com/user/wblanchette',
-  expression: `window.document.querySelector('.stats [data-href=":stats/beerhistory"]').innerHTML.replace(/[^0-9]/g, '');`
+  url: 'http://untappd.com/user/wblanchette',
+  expression: `document.querySelector('.stats [data-href=":stats/beerhistory"]').innerHTML.replace(/[^0-9]/g, '');`
+};
+
+// Fetch my game count from steam
+
+cache.games = {
+  url: 'http://steamcommunity.com/profiles/76561197976583032',
+  expression: `document.querySelector('.profile_count_link_total').innerText`
 };
 
 app.get('/:token', (req, res) => {
