@@ -30,6 +30,13 @@ cache.songs = {
     expression: `document.querySelector('[property="soundcloud:sound_count"]').content`
 };
 
+// Fetch a count of my github repos
+
+cache.repos = {
+  url: 'https://github.com/collectivecognition?tab=repositories',
+  expression: `document.querySelectorAll('.repo-list-name').length`
+};
+
 app.get('/:token', (req, res) => {
   const job = cache[req.params.token];
 
