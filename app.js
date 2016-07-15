@@ -46,6 +46,7 @@ app.get('/:token', (req, res) => {
             job.timestamp = now;
             res.jsonp(job.data);
           } catch(e) {
+            console.log('error', e);
             res.status(500).jsonp(null);
           }
         }
