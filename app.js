@@ -27,14 +27,7 @@ cache.games = {
 
 cache.songs = {
     url: 'https://soundcloud.com/will-blanchette',
-    expression: `document.querySelector('.infoStats__value').innerHTML`
-};
-
-// Fetch my commits count from github
-
-cache.songs = {
-    url: 'https://soundcloud.com/will-blanchette',
-    expression: `document.querySelector('.infoStats__value').innerHTML`
+    expression: `document.querySelectorAll('.infoStats__value')[2].innerHTML`
 };
 
 app.get('/:token', (req, res) => {
