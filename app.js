@@ -26,7 +26,7 @@ cache.games = {
 // Fetch my song count from soundcloud
 
 cache.songs = {
-    url: 'https://soundcloud.com/will-blanchette',
+    url: 'http://soundcloud.com/will-blanchette',
     expression: `document.querySelectorAll('.infoStats__value')[2].innerHTML`
 };
 
