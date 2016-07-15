@@ -1,5 +1,5 @@
 const config = {
-  rateLimit: 60 * 60 * 1000 // Only run once per hour
+  rateLimit: 60 * 60 * 1000 // Only run once per hour, max
 };
 
 const jsdom = require('jsdom');
@@ -20,7 +20,21 @@ cache.beers = {
 
 cache.games = {
   url: 'http://steamcommunity.com/profiles/76561197976583032',
-  expression: `document.querySelector('.profile_count_link_total').innerHTML.replace(/[^0-9]/g, '')`
+  expression: `document.querySelectorAll('.profile_count_link_total')[1].innerHTML.replace(/[^0-9]/g, '')`
+};
+
+// Fetch my song count from soundcloud
+
+cache.songs = {
+    url: 'https://soundcloud.com/will-blanchette',
+    expression: `document.querySelector('.infoStats__value').innerHTML`
+};
+
+// Fetch my commits count from github
+
+cache.songs = {
+    url: 'https://soundcloud.com/will-blanchette',
+    expression: `document.querySelector('.infoStats__value').innerHTML`
 };
 
 app.get('/:token', (req, res) => {
