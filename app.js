@@ -20,7 +20,7 @@ cache.beers = {
 
 cache.games = {
   url: 'http://steamcommunity.com/profiles/76561197976583032',
-  expression: `document.querySelector('.profile_count_link_total').innerText`
+  expression: `document.querySelector('.profile_count_link_total').innerHTML.replace(/[^0-9]/g, '')`
 };
 
 app.get('/:token', (req, res) => {
