@@ -27,7 +27,7 @@ cache.games = {
 
 cache.songs = {
     url: 'http://soundcloud.com/will-blanchette',
-    expression: `document.querySelectorAll('.infoStats__value')[2].innerHTML`
+    expression: `document.querySelector('[property="soundcloud:sound_count"]').content`
 };
 
 app.get('/:token', (req, res) => {
@@ -38,10 +38,7 @@ app.get('/:token', (req, res) => {
     if (!job.data || (job.timestamp && now - job.timestamp >= config.rateLimit)) {
       jsdom.env({
         url: job.url,
-        features: {
-          FetchExternalResources : ['script'],
-          ProcessExternalResources : ['script'],
-        },
+        features: {},
         done: (err, window) => {
           try {
             const script = new vm.Script(job.expression, {});
@@ -49,7 +46,6 @@ app.get('/:token', (req, res) => {
             job.timestamp = now;
             res.jsonp(job.data);
           } catch(e) {
-            console.log('error', e);
             res.status(500).jsonp(null);
           }
         }
