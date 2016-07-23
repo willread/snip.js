@@ -4,6 +4,7 @@ const config = {
 
 const jsdom = require('jsdom');
 const express = require('express');
+const redis = require('redis').createClient(process.env.REDIS_URL);
 const vm = require('vm');
 
 const app = express();
@@ -37,32 +38,44 @@ cache.repos = {
   expression: `document.querySelectorAll('.repo-list-name').length`
 };
 
+// Expose the api
+
 app.get('/:token', (req, res) => {
-  const job = cache[req.params.token];
+  const token = req.params.token;
+  const job = cache[token];
 
   if (job) {
     const now = (new Date()).getTime();
-    if (!job.data || (job.timestamp && now - job.timestamp >= config.rateLimit)) {
-      if (job.data) {
-        res.jsonp(job.data); // Return right away
-      }
-      jsdom.env({
-        url: job.url,
-        features: {},
-        done: (err, window) => {
-          try {
-            const script = new vm.Script(job.expression, {});
-            job.data = jsdom.evalVMScript(window, script);
-            job.timestamp = now;
-            res.jsonp(job.data);
-          } catch(e) {
-            res.status(500).jsonp(null);
-          }
+
+    redis.get(token, (err, data) => {
+      if (!data || (job.timestamp && now - job.timestamp >= config.rateLimit)) {
+        if (data) {
+          res.jsonp(data); // Return right away
         }
-      });
-    } else {
-      res.jsonp(job.data);
-    }
+        if (!job.fetching) {
+          job.fetching = true;
+
+          jsdom.env({
+            url: job.url,
+            features: {},
+            done: (err, window) => {
+              try {
+                const script = new vm.Script(job.expression, {});
+                const result = jsdom.evalVMScript(window, script);
+                redis.set(token, result);
+                job.timestamp = now;
+                job.fetching = false;
+                res.jsonp(result);
+              } catch(e) {
+                res.status(500).jsonp(null);
+              }
+            }
+          });
+        }
+      } else {
+        res.jsonp(data);
+      }
+    });
   } else {
     res.status(404).jsonp(null);
   }
