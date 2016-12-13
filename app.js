@@ -43,6 +43,7 @@ cache.repos = {
 app.get('/:token', (req, res) => {
   const token = req.params.token;
   const job = cache[token];
+  let returned = false;
 
   if (job) {
     const now = (new Date()).getTime();
@@ -51,6 +52,7 @@ app.get('/:token', (req, res) => {
       if (!data || !job.timestamp || now - job.timestamp >= config.rateLimit) {
         if (data) {
           res.jsonp(data); // Return right away
+          returned = true;
         }
         if (!job.fetching) {
           job.fetching = true;
@@ -65,9 +67,13 @@ app.get('/:token', (req, res) => {
                 redis.set(token, result);
                 job.timestamp = now;
                 job.fetching = false;
-                res.jsonp(result);
+                if (!returned) {
+                  res.jsonp(result);
+                }
               } catch(e) {
-                res.status(500).jsonp(null);
+                if (!returned) {
+                  res.status(500).jsonp(null);
+                }
                 job.fetching = false;
               }
             }
