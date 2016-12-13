@@ -66,6 +66,7 @@ app.get('/:token', (req, res) => {
                 job.timestamp = now;
                 job.fetching = false;
                 res.jsonp(result);
+                console.log('FETCHED NEW');
               } catch(e) {
                 res.status(500).jsonp(null);
               }
