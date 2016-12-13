@@ -1,5 +1,5 @@
 const config = {
-  rateLimit: 60 * 60 * 1000 // Only run once per hour, max
+  rateLimit: 30 // Only run once per hour, max
 };
 
 const jsdom = require('jsdom');
