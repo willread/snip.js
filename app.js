@@ -35,7 +35,7 @@ cache.songs = {
 
 cache.repos = {
   url: 'https://github.com/collectivecognition?tab=repositories',
-  expression: `document.querySelector("a[href='/collectivecognition?tab=repositories'] .counter").innerText`
+  expression: `document.querySelector("a[href='/collectivecognition?tab=repositories'] .counter").innerHTML.replace(/[^0-9]/g, '')`
 };
 
 // Expose the api
@@ -62,7 +62,6 @@ app.get('/:token', (req, res) => {
               try {
                 const script = new vm.Script(job.expression, {});
                 const result = jsdom.evalVMScript(window, script);
-                console.log("RESULT: ", result);
                 redis.set(token, result);
                 job.timestamp = now;
                 job.fetching = false;
