@@ -48,7 +48,7 @@ app.get('/:token', (req, res) => {
     const now = (new Date()).getTime();
 
     redis.get(token, (err, data) => {
-      if (!data || (job.timestamp && now - job.timestamp >= config.rateLimit)) {
+      if (!data || !job.timestamp || now - job.timestamp >= config.rateLimit) {
         if (data) {
           res.jsonp(data); // Return right away
         }
