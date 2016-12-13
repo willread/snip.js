@@ -62,6 +62,7 @@ app.get('/:token', (req, res) => {
               try {
                 const script = new vm.Script(job.expression, {});
                 const result = jsdom.evalVMScript(window, script);
+                console.log("RESULT: ", result);
                 redis.set(token, result);
                 job.timestamp = now;
                 job.fetching = false;
