@@ -35,7 +35,7 @@ cache.songs = {
 
 cache.repos = {
   url: 'https://github.com/collectivecognition?tab=repositories',
-  expression: `document.querySelectorAll('.repo-list-name').length`
+  expression: `document.querySelector("a[href='/collectivecognition?tab=repositories'] .counter").innerText`
 };
 
 // Expose the api
