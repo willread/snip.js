@@ -69,12 +69,14 @@ app.get('/:token', (req, res) => {
                 console.log('FETCHED NEW');
               } catch(e) {
                 res.status(500).jsonp(null);
+                job.fetching = false;
               }
             }
           });
         }
       } else {
         res.jsonp(data);
+        console.log("TIMESTAMP: ", job.timestamp, " NOW: ", now);
       }
     });
   } else {
