@@ -1,5 +1,5 @@
 const config = {
-  rateLimit: 30 // Only run once per hour, max
+  rateLimit: 60 * 60 * 1000 // Only run once per hour, max
 };
 
 const jsdom = require('jsdom');
@@ -66,7 +66,6 @@ app.get('/:token', (req, res) => {
                 job.timestamp = now;
                 job.fetching = false;
                 res.jsonp(result);
-                console.log('FETCHED NEW');
               } catch(e) {
                 res.status(500).jsonp(null);
                 job.fetching = false;
@@ -76,7 +75,6 @@ app.get('/:token', (req, res) => {
         }
       } else {
         res.jsonp(data);
-        console.log("TIMESTAMP: ", job.timestamp, " NOW: ", now);
       }
     });
   } else {
