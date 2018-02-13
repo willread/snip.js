@@ -1,4 +1,4 @@
-const config = {
+constconfig = {
   rateLimit: 60 * 60 * 1000 // Only run once per hour, max
 };
 
@@ -34,8 +34,8 @@ cache.songs = {
 // Fetch a count of my github repos
 
 cache.repos = {
-  url: 'https://github.com/collectivecognition?tab=repositories',
-  expression: `document.querySelector("a[href='/collectivecognition?tab=repositories'] .counter").innerHTML.replace(/[^0-9]/g, '')`
+  url: 'https://github.com/willblanchette?tab=repositories',
+  expression: `document.querySelector("a[href='/willblanchette?tab=repositories'] .counter").innerHTML.replace(/[^0-9]/g, '')`
 };
 
 // Expose the api
