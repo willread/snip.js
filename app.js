@@ -35,7 +35,7 @@ cache.songs = {
 
 cache.repos = {
   url: 'https://github.com/willblanchette?tab=repositories',
-  expression: `document.querySelector("a[href='/willblanchette?tab=repositories'] .counter").innerHTML.replace(/[^0-9]/g, '')`
+  expression: `document.querySelector("a[href='/willblanchette?tab=repositories'] .Counter").innerHTML.replace(/[^0-9]/g, '')`
 };
 
 // Expose the api
