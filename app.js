@@ -51,10 +51,10 @@ app.get('/:token', (req, res) => {
 
     redis.get(token, (err, data) => {
       if (!data || !job.timestamp || now - job.timestamp >= config.rateLimit) {
-      //  if (data) {
-      //    res.jsonp(data); // Return right away
-      //    returned = true;
-      //  }
+        if (data) {
+          res.jsonp(data); // Return right away
+          returned = true;
+        }
 
         if (!job.fetching) {
           job.fetching = true;
