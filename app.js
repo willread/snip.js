@@ -59,6 +59,7 @@ app.get('/:token', (req, res) => {
         if (!job.fetching) {
           job.fetching = true;
 
+          console.log('fetching', token);
           JSDOM.fromURL(job.url, {
             runScripts: 'outside-only'
           }).then(dom => {
@@ -70,6 +71,7 @@ app.get('/:token', (req, res) => {
                 redis.set(token, result);
                 job.timestamp = now;
                 job.fetching = false;
+                console.log('got result', result);
                 if (!returned) {
                   res.jsonp(result);
                 }
