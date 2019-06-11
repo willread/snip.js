@@ -51,10 +51,10 @@ app.get('/:token', (req, res) => {
 
     redis.get(token, (err, data) => {
       if (!data || !job.timestamp || now - job.timestamp >= config.rateLimit) {
-        if (data) {
-          res.jsonp(data); // Return right away
-          returned = true;
-        }
+  //      if (data) {
+   //       res.jsonp(data); // Return right away
+   //       returned = true;
+   //     }
 
         if (!job.fetching) {
           job.fetching = true;
@@ -68,7 +68,7 @@ app.get('/:token', (req, res) => {
             try {
               const script = new Script(job.expression);
               const result = dom.runVMScript(script);
-
+console.log('result', result);
               redis.set(token, result);
               job.timestamp = now;
               job.fetching = false;
@@ -77,7 +77,7 @@ app.get('/:token', (req, res) => {
               }
             } catch(e) {
               if (!returned) {
-                res.status(500).jsonp(null);
+  console.error('error', e);              res.status(500).jsonp(null);
               }
               job.fetching = false;
             }
