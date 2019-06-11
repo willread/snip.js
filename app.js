@@ -13,7 +13,7 @@ const cache = {};
 // Fetch my beer count from untappd
 
 cache.beers = {
-  url: 'http://untappd.com/user/wblanchette',
+  url: 'http://untappd.com/user/willieamread',
   expression: `document.querySelector('.stats [data-href=":stats/beerhistory"]').innerHTML.replace(/[^0-9]/g, '');`
 };
 
@@ -27,15 +27,15 @@ cache.games = {
 // Fetch my song count from soundcloud
 
 cache.songs = {
-    url: 'http://soundcloud.com/will-blanchette',
+    url: 'http://soundcloud.com/will_read',
     expression: `document.querySelector('[property="soundcloud:sound_count"]').content`
 };
 
 // Fetch a count of my github repos
 
 cache.repos = {
-  url: 'https://github.com/willblanchette?tab=repositories',
-  expression: `document.querySelector("a[href='/willblanchette?tab=repositories'] .Counter").innerHTML.replace(/[^0-9]/g, '')`
+  url: 'https://github.com/willread?tab=repositories',
+  expression: `document.querySelector("a[href='/willread?tab=repositories'] .Counter").innerHTML.replace(/[^0-9]/g, '')`
 };
 
 // Expose the api
