@@ -14,7 +14,7 @@ const cache = {};
 // Fetch my beer count from untappd
 
 cache.beers = {
-  url: 'http://untappd.com/user/willieamread',
+  url: 'http://untappd.com/user/williamread',
   expression: `document.querySelector('.stats [data-href=":stats/beerhistory"]').innerHTML.replace(/[^0-9]/g, '');`
 };
 
