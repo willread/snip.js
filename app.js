@@ -3,6 +3,7 @@ const config = {
 };
 
 const jsdom = require('jsdom');
+const { JSDOM } = jsdom;
 const express = require('express');
 const redis = require('redis').createClient(process.env.REDIS_URL);
 const { Script } = require('vm');
@@ -58,7 +59,7 @@ app.get('/:token', (req, res) => {
         if (!job.fetching) {
           job.fetching = true;
 
-          jsdom.fromURL(job.url, {
+          JSDOM.fromURL(job.url, {
             runScripts: 'outside-only'
           }).then(dom => {
             dom.window.addEventListener('load', function() {
