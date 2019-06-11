@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "express": "^4.16.4",
+    "express": "^4.17.1",
     "jsdom": "^9.4.1",
     "redis": "^2.6.2"
   },
