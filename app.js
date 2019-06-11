@@ -3,7 +3,6 @@ const config = {
 };
 
 const jsdom = require('jsdom');
-const { JSDOM } = jsdom;
 const express = require('express');
 const redis = require('redis').createClient(process.env.REDIS_URL);
 const { Script } = require('vm');
@@ -59,29 +58,29 @@ app.get('/:token', (req, res) => {
         if (!job.fetching) {
           job.fetching = true;
 
-          const dom = new JSDOM({
-            url: job.url,
+          jsdom.fromURL(job.url, {
             runScripts: 'outside-only'
+          }).then(dom => {
+            dom.window.addEventListener('load', function() {
+              try {
+                const script = new Script(job.expression);
+                const result = dom.runVMScript(script);
+
+                redis.set(token, result);
+                job.timestamp = now;
+                job.fetching = false;
+                if (!returned) {
+                  res.jsonp(result);
+                }
+              } catch(e) {
+                if (!returned) {
+                  console.error('error', e);
+                  res.status(500).jsonp(null);
+                }
+                job.fetching = false;
+              }
+            }, false);
           });
-
-          dom.window.addEventListener('load', function() {
-            try {
-              const script = new Script(job.expression);
-              const result = dom.runVMScript(script);
-
-              redis.set(token, result);
-              job.timestamp = now;
-              job.fetching = false;
-              if (!returned) {
-                res.jsonp(result);
-              }
-            } catch(e) {
-              if (!returned) {
-                res.status(500).jsonp(null);
-              }
-              job.fetching = false;
-            }
-          }, false);
         }
       } else {
         res.jsonp(data);
