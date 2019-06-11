@@ -6,7 +6,7 @@ const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 const express = require('express');
 const redis = require('redis').createClient(process.env.REDIS_URL);
-const vm = require('vm');
+const { Script } = require('vm');
 
 const app = express();
 const cache = {};
@@ -66,7 +66,9 @@ app.get('/:token', (req, res) => {
 
           dom.window.addEventListener('load', function() {
             try {
-              const result = window.eval(job.expression);
+              const script = new Script(job.expression);
+              const result = dom.runVMScript(script);
+
               redis.set(token, result);
               job.timestamp = now;
               job.fetching = false;
