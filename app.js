@@ -64,7 +64,7 @@ app.get('/:token', (req, res) => {
             runScripts: 'outside-only'
           });
 
-          dom.window.addEventListener(load, function() {
+          dom.window.addEventListener('load', function() {
             try {
               const result = window.eval(job.expression);
               redis.set(token, result);
