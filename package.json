@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "express": "^4.17.1",
-    "jsdom": "^15.1.1",
+    "jsdom": "^16.5.0",
     "redis": "^2.6.2"
   },
   "engines": {
